@@ -1,14 +1,13 @@
 # CMP Dorker
 
-**CMP Dorker** is a powerful, comprehensive multi-platform dorking tool designed to simplify advanced Google dork queries for vulnerability discovery, information gathering, and penetration testing.
+**CMP Dorker** is a comprehensive multi-platform dorking tool designed to simplify advanced search queries across various search engines and platforms. It helps security researchers, penetration testers, and info gatherers efficiently discover vulnerabilities, exposed data, and sensitive information.
 
 ## Features
 
-- Pre-built dork categories for various security research needs
-- Supports multiple dork types: admin panels, exposed files, sensitive data, IoT devices, backups, and more
-- Easy-to-use interface with one-click dork insertion
-- Customizable target inputs for versatile scanning
-- Helps streamline reconnaissance and exposure detection
+- Supports dorking on multiple platforms, not limited to Google
+- Pre-built dork categories for admin panels, sensitive files, exposed devices, backups, and more
+- Easy-to-use interface with quick dork insertion and customizable targets
+- Streamlines reconnaissance and vulnerability discovery across platforms
 
 ## Installation
 
