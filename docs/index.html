@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Comprehensive Multi-Platform Dorking Tool</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center p-4">
+  <div class="w-full max-w-6xl bg-gray-800 rounded-xl shadow-lg p-6 space-y-6">
+    <h1 class="text-4xl font-bold text-center text-yellow-400">Comprehensive Multi-Platform Dorking Tool</h1>
+
+    <!-- Platform Selector -->
+    <div>
+      <label for="platformSelect" class="block text-sm font-medium text-gray-300 mb-2">Select Platform:</label>
+      <select id="platformSelect" class="w-full p-2 bg-gray-700 border border-gray-600 rounded">
+        <option value="github">GitHub</option>
+        <option value="google">Google</option>
+        <option value="shodan">Shodan</option>
+        <option value="censys">Censys</option>
+        <option value="binaryedge">BinaryEdge</option>
+        <option value="zoomeye">ZoomEye</option>
+        <option value="pastebin">Public Paste Sites (Pastebin)</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="twitter">Twitter / Social Media</option>
+        <option value="wayback">Wayback Machine (archive.org)</option>
+        <option value="file_search">File Search Engines</option>
+        <option value="exploitdb">Exploit Databases & Forums</option>
+        <option value="security_search">Security-focused Search Engines</option>
+      </select>
+    </div>
+
+    <!-- Target Input -->
+    <div>
+      <label for="targetInput" class="block text-sm font-medium text-gray-300 mb-2">Target Domain / Subdomain / Keyword:</label>
+      <input id="targetInput" type="text" class="w-full p-2 bg-gray-700 border border-gray-600 rounded"
+        placeholder="e.g., example.com or sub.example.com or keyword" />
+    </div>
+
+    <!-- Custom Dork Input -->
+    <div>
+      <label for="customDork" class="block text-sm font-medium text-gray-300 mb-2">Or Enter Custom Dork Query:</label>
+      <input id="customDork" type="text" class="w-full p-2 bg-gray-700 border border-gray-600 rounded"
+        placeholder="Optional custom dork with {target} placeholder" />
+    </div>
+
+    <div class="flex justify-between gap-4">
+      <button onclick="searchDork()" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+        🔍 Search
+      </button>
+      <button onclick="copyDork()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        📋 Copy Dork
+      </button>
+    </div>
+
+    <p id="status" class="text-center text-sm text-gray-400"></p>
+
+    <!-- Types of Dorking Section -->
+    <section class="mt-8">
+      <h2 class="text-2xl font-semibold text-yellow-400 mb-4 border-b border-yellow-400 pb-2">Types of Dorking & Examples</h2>
+
+      <div class="space-y-8 max-h-[600px] overflow-y-auto pr-2">
+
+<!-- Information Gathering -->
+<div>
+  <h3 class="text-xl font-semibold text-green-400 mb-2">Information Gathering Dorking</h3>
+  <div class="flex flex-wrap gap-2">
+    <button onclick="setDorkTemplate('site:{target} confidential')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} confidential</button>
+    <button onclick="setDorkTemplate('site:{target} \'index of\'')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} "index of"</button>
+    <button onclick="setDorkTemplate('site:{target} about')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} about</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:index.of')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:index.of</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:pdf confidential')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:pdf confidential</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:xls inurl:financial')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:xls inurl:financial</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\'login\'')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"login"</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:admin')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:admin</button>
+    <button onclick="setDorkTemplate('site:{target} intext:\'password\'')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intext:"password"</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:doc confidential')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:doc confidential</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\'index of /\' passwd')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"index of /" passwd</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:\'wp-config.php\'')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:"wp-config.php"</button>
+    <button onclick="setDorkTemplate('site:{target} ext:sql')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:sql</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:backup')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:backup</button>
+    <button onclick="setDorkTemplate('site:{target} intext:\'email\'')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intext:"email"</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:password')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:password</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:xls inurl:employee')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:xls inurl:employee</button>
+    <button onclick="setDorkTemplate('site:{target} ext:env')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:env</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:.git')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:.git</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:log')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:log</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\'error log\'')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"error log"</button>
+  </div>
+</div>
+
+
+  <!-- Vulnerability Discovery -->
+<div>
+  <h3 class="text-xl font-semibold text-green-400 mb-2">Vulnerability Discovery Dorking</h3>
+  <div class="flex flex-wrap gap-2">
+    <button onclick="setDorkTemplate('site:{target} inurl:admin')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:admin</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\'admin panel\'')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"admin panel"</button>
+    <button onclick="setDorkTemplate('site:{target} ext:env')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:env</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:phpinfo.php')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:phpinfo.php</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\'Warning\' inurl:admin')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"Warning" inurl:admin</button>
+    <button onclick="setDorkTemplate('site:{target} intext:\'sql syntax near\''')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intext:"sql syntax near"</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:wp-content/plugins/')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:wp-content/plugins/</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:login.jsp')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:login.jsp</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\'index of\' +passwd')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"index of" +passwd</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:bak OR filetype:old OR filetype:backup')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:bak OR old OR backup</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:test')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:test</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\'error\' OR intext:\'fatal error\'')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} error or fatal error</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:sql intext:insert into')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:sql insert into</button>
+    <button onclick="setDorkTemplate('site:{target} ext:log')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:log</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:debug')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:debug</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\'Apache2 Ubuntu Default Page\'')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} Apache2 Ubuntu Default Page</button>
+    <button onclick="setDorkTemplate('site:{target} ext:xml intext:\'<password>\'')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:xml with &lt;password&gt;</button>
+    <button onclick="setDorkTemplate('site:{target} ext:json intext:\'password\'')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:json password</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:setup')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:setup</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:sql inurl:dump')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:sql inurl:dump</button>
+  </div>
+</div>
+
+<!-- File/Document Retrieval -->
+<div>
+  <h3 class="text-xl font-semibold text-green-400 mb-2">File/Document Retrieval Dorking</h3>
+  <div class="flex flex-wrap gap-2">
+    <button onclick="setDorkTemplate('site:{target} filetype:pdf password')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:pdf password</button>
+    <button onclick="setDorkTemplate('site:{target} filename:.env')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filename:.env</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:xls sensitive')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:xls sensitive</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:doc confidential')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:doc confidential</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:sql')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:sql</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:log')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:log</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:bak')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:bak</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:inc')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:inc</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:csv email')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:csv email</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:xls inurl:admin')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:xls inurl:admin</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:json password')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:json password</button>
+    <button onclick="setDorkTemplate('site:{target} ext:xml intext:\'<password>\'')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:xml &lt;password&gt;</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:cfg')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:cfg</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:ini')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:ini</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:conf')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:conf</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:backup')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:backup</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:swp')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:swp</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:old')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:old</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:db')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:db</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:zip confidential')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:zip confidential</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:7z password')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:7z password</button>
+  </div>
+</div>
+
+
+ <!-- Exposed Sensitive Data -->
+<div>
+  <h3 class="text-xl font-semibold text-green-400 mb-2">Exposed Sensitive Data Dorking</h3>
+  <div class="flex flex-wrap gap-2">
+    <!-- Basic Keywords -->
+    <button onclick="setDorkTemplate('site:{target} \"password\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} "password"</button>
+    <button onclick="setDorkTemplate('site:{target} \"username\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} "username"</button>
+    <button onclick="setDorkTemplate('site:{target} \"secret\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} "secret"</button>
+    <button onclick="setDorkTemplate('site:{target} \"credentials\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} "credentials"</button>
+    <button onclick="setDorkTemplate('site:{target} \"auth\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} "auth"</button>
+
+    <!-- Tokens & Keys -->
+    <button onclick="setDorkTemplate('site:{target} apikey')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} apikey</button>
+    <button onclick="setDorkTemplate('site:{target} api_key')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} api_key</button>
+    <button onclick="setDorkTemplate('site:{target} \"access_token\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} "access_token"</button>
+    <button onclick="setDorkTemplate('site:{target} \"auth_token\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} "auth_token"</button>
+    <button onclick="setDorkTemplate('site:{target} token')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} token</button>
+    <button onclick="setDorkTemplate('site:{target} bearer')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} bearer</button>
+    <button onclick="setDorkTemplate('site:{target} jwt')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} jwt</button>
+
+    <!-- Sensitive Data in Configs -->
+    <button onclick="setDorkTemplate('site:{target} \"DB_PASSWORD\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} "DB_PASSWORD"</button>
+    <button onclick="setDorkTemplate('site:{target} \"DB_USER\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} "DB_USER"</button>
+    <button onclick="setDorkTemplate('site:{target} \"AWS_SECRET_ACCESS_KEY\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} "AWS_SECRET_ACCESS_KEY"</button>
+    <button onclick="setDorkTemplate('site:{target} \"AWS_ACCESS_KEY_ID\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} "AWS_ACCESS_KEY_ID"</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:env')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:env</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:json \"client_secret\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:json "client_secret"</button>
+
+    <!-- Git & Developer Leakage -->
+    <button onclick="setDorkTemplate('site:{target} ext:log')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:log</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:.git')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:.git</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:log password')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:log password</button>
+    <button onclick="setDorkTemplate('site:{target} intext:\"Authorization: Basic\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} Authorization: Basic</button>
+    <button onclick="setDorkTemplate('site:{target} \"PRIVATE KEY\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} "PRIVATE KEY"</button>
+    <button onclick="setDorkTemplate('site:{target} \"BEGIN RSA PRIVATE KEY\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} "BEGIN RSA PRIVATE KEY"</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:pem')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:pem</button>
+    <button onclick="setDorkTemplate('site:{target} filetype:crt')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} filetype:crt</button>
+  </div>
+</div>
+
+<!-- Login Page / Admin Panel -->
+<div>
+  <h3 class="text-xl font-semibold text-green-400 mb-2">Login Page / Admin Panel Dorking</h3>
+  <div class="flex flex-wrap gap-2">
+    <!-- General Login/Admin Dorks -->
+    <button onclick="setDorkTemplate('site:{target} inurl:admin/login')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:admin/login</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\"login\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"login"</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:admin')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:admin</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\"admin panel\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"admin panel"</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:administrator')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:administrator</button>
+
+    <!-- CMS-Specific Admin Panels -->
+    <button onclick="setDorkTemplate('site:{target} inurl:wp-admin')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:wp-admin</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:wp-login.php')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:wp-login.php</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:joomla/administrator')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:joomla/administrator</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:user/login')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:user/login</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:drupal/login')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:drupal/login</button>
+    
+    <!-- Control Panels -->
+    <button onclick="setDorkTemplate('site:{target} inurl:cpanel')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:cpanel</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:webadmin')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:webadmin</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:controlpanel')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:controlpanel</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\"Control Panel Login\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"Control Panel Login"</button>
+    
+    <!-- Remote Desktop / Management Interfaces -->
+    <button onclick="setDorkTemplate('site:{target} intitle:\"Remote Desktop Web Connection\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"Remote Desktop Web Connection"</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:login.aspx')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:login.aspx</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:admin/login.aspx')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:admin/login.aspx</button>
+    
+    <!-- Other Login Pages -->
+    <button onclick="setDorkTemplate('site:{target} inurl:signin')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:signin</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:auth')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:auth</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:login.html')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:login.html</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:adminarea')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:adminarea</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:dashboard')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:dashboard</button>
+  </div>
+</div>
+
+<!-- Exposed Cameras / IoT Devices -->
+<div>
+  <h3 class="text-xl font-semibold text-green-400 mb-2">Exposed Cameras / IoT Device Dorking</h3>
+  <div class="flex flex-wrap gap-2">
+    <!-- Common IP Camera Streams -->
+    <button onclick="setDorkTemplate('inurl:view/view.shtml')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">inurl:view/view.shtml</button>
+    <button onclick="setDorkTemplate('inurl:axis-cgi/mjpg/video.cgi')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">inurl:axis-cgi/mjpg/video.cgi</button>
+    <button onclick="setDorkTemplate('intitle:\"live view / - AXIS\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">intitle:"live view / - AXIS"</button>
+    <button onclick="setDorkTemplate('inurl:/cgi-bin/camera')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">inurl:/cgi-bin/camera</button>
+
+    <!-- More IP Cameras -->
+    <button onclick="setDorkTemplate('intitle:\"Live View / - AXIS 206M\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">intitle:"Live View / - AXIS 206M"</button>
+    <button onclick="setDorkTemplate('intitle:\"IP Camera [root@\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">intitle:"IP Camera [root@"</button>
+    <button onclick="setDorkTemplate('intitle:\"NetCam Live Image\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">intitle:"NetCam Live Image"</button>
+    <button onclick="setDorkTemplate('inurl:/video.cgi')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">inurl:/video.cgi</button>
+    <button onclick="setDorkTemplate('inurl:/videostream.cgi')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">inurl:/videostream.cgi</button>
+    <button onclick="setDorkTemplate('inurl:/mjpg/video.mjpg')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">inurl:/mjpg/video.mjpg</button>
+
+    <!-- DVR & NVR -->
+    <button onclick="setDorkTemplate('intitle:\"DVR WebClient\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">intitle:"DVR WebClient"</button>
+    <button onclick="setDorkTemplate('intitle:\"IPCAMERA\" inurl:/doc/page/preview.asp')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">intitle:"IPCAMERA" inurl:/doc/page/preview.asp</button>
+    <button onclick="setDorkTemplate('intitle:\"Network Camera\" inurl:login.htm')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">intitle:"Network Camera" inurl:login.htm</button>
+
+    <!-- IoT Panels -->
+    <button onclick="setDorkTemplate('intitle:\"webcamXP 5\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">intitle:"webcamXP 5"</button>
+    <button onclick="setDorkTemplate('intitle:\"webcam 7\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">intitle:"webcam 7"</button>
+    <button onclick="setDorkTemplate('intitle:\"IP Camera Viewer\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">intitle:"IP Camera Viewer"</button>
+    <button onclick="setDorkTemplate('intitle:\"IPCam Admin Login\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">intitle:"IPCam Admin Login"</button>
+    <button onclick="setDorkTemplate('intitle:\"Control4 Home Automation\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">intitle:"Control4 Home Automation"</button>
+
+    <!-- Routers and IoT Devices -->
+    <button onclick="setDorkTemplate('intitle:\"RouterOS Welcome\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">intitle:"RouterOS Welcome"</button>
+    <button onclick="setDorkTemplate('intitle:\"Welcome to xampp\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">intitle:"Welcome to xampp"</button>
+    <button onclick="setDorkTemplate('inurl:main.cgi')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">inurl:main.cgi</button>
+  </div>
+</div>
+
+
+<!-- Exploit and Malware Hosting -->
+<div>
+  <h3 class="text-xl font-semibold text-green-400 mb-2">Exploit & Malware Hosting Dorking</h3>
+  <div class="flex flex-wrap gap-2">
+    <!-- Basic suspicious hosting -->
+    <button onclick="setDorkTemplate('site:{target} inurl:/uploads/')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:/uploads/</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\"index of\" malware')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"index of" malware</button>
+
+    <!-- Suspicious executable/script types -->
+    <button onclick="setDorkTemplate('site:{target} ext:exe')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:exe</button>
+    <button onclick="setDorkTemplate('site:{target} ext:bat')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:bat</button>
+    <button onclick="setDorkTemplate('site:{target} ext:cmd')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:cmd</button>
+    <button onclick="setDorkTemplate('site:{target} ext:js malware')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:js malware</button>
+    <button onclick="setDorkTemplate('site:{target} ext:vbs')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:vbs</button>
+    <button onclick="setDorkTemplate('site:{target} ext:jar')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:jar</button>
+    <button onclick="setDorkTemplate('site:{target} ext:apk')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:apk</button>
+    <button onclick="setDorkTemplate('site:{target} ext:ps1')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:ps1</button>
+
+    <!-- Malware-related keywords -->
+    <button onclick="setDorkTemplate('site:{target} intext:\"ransomware\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intext:"ransomware"</button>
+    <button onclick="setDorkTemplate('site:{target} intext:\"backdoor\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intext:"backdoor"</button>
+    <button onclick="setDorkTemplate('site:{target} intext:\"meterpreter\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intext:"meterpreter"</button>
+    <button onclick="setDorkTemplate('site:{target} intext:\"reverse shell\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intext:"reverse shell"</button>
+    <button onclick="setDorkTemplate('site:{target} intext:\"keylogger\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intext:"keylogger"</button>
+    <button onclick="setDorkTemplate('site:{target} intext:\"exploit\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intext:"exploit"</button>
+    
+    <!-- Common open directories for malware -->
+    <button onclick="setDorkTemplate('site:{target} intitle:\"index of\" ext:exe')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"index of" ext:exe</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\"index of\" hacking tools')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"index of" hacking tools</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\"index of\" tools.zip')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"index of" tools.zip</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\"index of\" payload.exe')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"index of" payload.exe</button>
+  </div>
+</div>
+
+<!-- Exposed Backup Files -->
+<div>
+  <h3 class="text-xl font-semibold text-green-400 mb-2">Exposed Backup Files Dorking</h3>
+  <div class="flex flex-wrap gap-2">
+    <!-- Common extensions -->
+    <button onclick="setDorkTemplate('site:{target} ext:bak')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:bak</button>
+    <button onclick="setDorkTemplate('site:{target} ext:old')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:old</button>
+    <button onclick="setDorkTemplate('site:{target} ext:backup')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:backup</button>
+    <button onclick="setDorkTemplate('site:{target} ext:zip backup')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:zip backup</button>
+    <button onclick="setDorkTemplate('site:{target} ext:tar.gz')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:tar.gz</button>
+    <button onclick="setDorkTemplate('site:{target} ext:tgz')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:tgz</button>
+    <button onclick="setDorkTemplate('site:{target} ext:sql')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:sql</button>
+    <button onclick="setDorkTemplate('site:{target} ext:gz')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:gz</button>
+    <button onclick="setDorkTemplate('site:{target} ext:rar')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:rar</button>
+    <button onclick="setDorkTemplate('site:{target} ext:7z')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:7z</button>
+    
+    <!-- Naming patterns -->
+    <button onclick="setDorkTemplate('site:{target} inurl:backup')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:backup</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:db_backup')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:db_backup</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:website_backup')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:website_backup</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:backup.zip')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:backup.zip</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\"index of\" backup.zip')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"index of" backup.zip</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\"index of\" db.sql')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"index of" db.sql</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\"index of\" site_backup.tar.gz')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"index of" site_backup.tar.gz</button>
+    
+    <!-- SQL and DB backup leak detection -->
+    <button onclick="setDorkTemplate('site:{target} ext:sql intext:INSERT INTO')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:sql intext:INSERT INTO</button>
+    <button onclick="setDorkTemplate('site:{target} ext:sql intext:MySQL dump')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:sql intext:MySQL dump</button>
+    <button onclick="setDorkTemplate('site:{target} ext:sql intext:phpMyAdmin')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:sql intext:phpMyAdmin</button>
+  </div>
+</div>
+<!-- Misconfiguration & Exposure -->
+<div>
+  <h3 class="text-xl font-semibold text-green-400 mb-2">Misconfiguration & Exposure Dorking</h3>
+  <div class="flex flex-wrap gap-2">
+    <!-- Directory Listings -->
+    <button onclick="setDorkTemplate('site:{target} intitle:\"Index of /\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"Index of /"</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\"index of\" inurl:ftp')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"index of" inurl:ftp</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\"index of\" inurl:admin')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"index of" inurl:admin</button>
+    
+    <!-- Log, config, env files -->
+    <button onclick="setDorkTemplate('site:{target} ext:log')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:log</button>
+    <button onclick="setDorkTemplate('site:{target} ext:conf')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:conf</button>
+    <button onclick="setDorkTemplate('site:{target} ext:env')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:env</button>
+    <button onclick="setDorkTemplate('site:{target} ext:ini')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:ini</button>
+    <button onclick="setDorkTemplate('site:{target} ext:json inurl:config')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:json inurl:config</button>
+    
+    <!-- SQL / SQLite -->
+    <button onclick="setDorkTemplate('site:{target} ext:sql')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:sql</button>
+    <button onclick="setDorkTemplate('site:{target} ext:sqlite3')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:sqlite3</button>
+    
+    <!-- Public .git & VCS exposure -->
+    <button onclick="setDorkTemplate('site:{target} inurl:.git')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:.git</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:.svn')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:.svn</button>
+    
+    <!-- Cloud metadata exposure -->
+    <button onclick="setDorkTemplate('site:{target} inurl:/.aws/credentials')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:/.aws/credentials</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:metadata.google.internal')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:metadata.google.internal</button>
+
+    <!-- Debug/Status endpoints -->
+    <button onclick="setDorkTemplate('site:{target} inurl:debug')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:debug</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:status')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:status</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:dump')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:dump</button>
+    
+    <!-- Public API documentation or endpoints -->
+    <button onclick="setDorkTemplate('site:{target} inurl:swagger-ui')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:swagger-ui</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:/api-docs')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:/api-docs</button>
+    <button onclick="setDorkTemplate('site:{target} intitle:\"API documentation\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} intitle:"API documentation"</button>
+  </div>
+</div>
+
+<!-- Subdomain Finder -->
+<div>
+  <h3 class="text-xl font-semibold text-green-400 mb-2">Subdomain Finder Dorking</h3>
+  <div class="flex flex-wrap gap-2">
+    <!-- Basic subdomain discovery -->
+    <button onclick="setDorkTemplate('site:*.{target} -www.{target}')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:*.{target} -www.{target}</button>
+    <button onclick="setDorkTemplate('site:{target} -www.{target}')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} -www.{target}</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:.{target}')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:.{target}</button>
+    
+    <!-- Specific subdomain patterns -->
+    <button onclick="setDorkTemplate('site:dev.{target}')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:dev.{target}</button>
+    <button onclick="setDorkTemplate('site:test.{target}')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:test.{target}</button>
+    <button onclick="setDorkTemplate('site:api.{target}')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:api.{target}</button>
+    <button onclick="setDorkTemplate('site:admin.{target}')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:admin.{target}</button>
+    <button onclick="setDorkTemplate('site:internal.{target}')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:internal.{target}</button>
+    <button onclick="setDorkTemplate('site:portal.{target}')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:portal.{target}</button>
+    <button onclick="setDorkTemplate('site:staging.{target}')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:staging.{target}</button>
+    <button onclick="setDorkTemplate('site:secure.{target}')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:secure.{target}</button>
+    <button onclick="setDorkTemplate('site:cloud.{target}')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:cloud.{target}</button>
+    
+    <!-- Wildcard subdomain hunting with keywords -->
+    <button onclick="setDorkTemplate('site:*.{target} inurl:login')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:*.{target} inurl:login</button>
+    <button onclick="setDorkTemplate('site:*.{target} intitle:\"dashboard\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:*.{target} intitle:"dashboard"</button>
+    <button onclick="setDorkTemplate('site:*.{target} inurl:admin')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:*.{target} inurl:admin</button>
+    <button onclick="setDorkTemplate('site:*.{target} intitle:\"control panel\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:*.{target} intitle:"control panel"</button>
+
+    <!-- Using SSL certificates indexing -->
+    <button onclick="setDorkTemplate('site:crt.sh \"{target}\"')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:crt.sh "{target}"</button>
+  </div>
+</div>
+
+<!-- Hidden File Finder -->
+<div>
+  <h3 class="text-xl font-semibold text-green-400 mb-2">Hidden File Finder Dorking</h3>
+  <div class="flex flex-wrap gap-2">
+    <button onclick="setDorkTemplate('site:{target} inurl:.git')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:.git</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:.env')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:.env</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:.htaccess')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:.htaccess</button>
+    <button onclick="setDorkTemplate('site:{target} ext:ini')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:ini</button>
+
+    <!-- Additional hidden files and config files -->
+    <button onclick="setDorkTemplate('site:{target} inurl:.gitignore')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:.gitignore</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:.svn')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:.svn</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:.DS_Store')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:.DS_Store</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:.bash_history')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:.bash_history</button>
+    <button onclick="setDorkTemplate('site:{target} ext:log')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:log</button>
+    <button onclick="setDorkTemplate('site:{target} ext:bak')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:bak</button>
+    <button onclick="setDorkTemplate('site:{target} ext:old')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:old</button>
+    <button onclick="setDorkTemplate('site:{target} ext:backup')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} ext:backup</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:config')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:config</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:credentials')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:credentials</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:passwd')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:passwd</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:secret')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:secret</button>
+    <button onclick="setDorkTemplate('site:{target} inurl:key')" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm">site:{target} inurl:key</button>
+  </div>
+</div>
+
+
+  <script>
+    // Platform search URLs for each platform
+    const platformUrls = {
+      google: 'https://www.google.com/search?q=',
+      github: 'https://github.com/search?q=',
+      shodan: 'https://www.shodan.io/search?query=',
+      censys: 'https://search.censys.io/search?q=',
+      binaryedge: 'https://app.binaryedge.io/host/search?q=',
+      zoomeye: 'https://www.zoomeye.org/search?query=',
+      pastebin: 'https://pastebin.com/search?q=',
+      linkedin: 'https://www.linkedin.com/search/results/all/?keywords=',
+      twitter: 'https://twitter.com/search?q=',
+      wayback: 'https://web.archive.org/web/*/',
+      file_search: 'https://www.google.com/search?q=',
+      exploitdb: 'https://www.exploit-db.com/search?q=',
+      security_search: 'https://www.virustotal.com/gui/search/',
+    };
+
+    function searchDork() {
+      const platform = document.getElementById('platformSelect').value;
+      const target = document.getElementById('targetInput').value.trim();
+      let dork = document.getElementById('customDork').value.trim();
+
+      if (!dork) {
+        alert('Please select or enter a dork query.');
+        return;
+      }
+
+      if (dork.includes('{target}')) {
+        if (!target) {
+          alert('Please enter a target to replace {target} in the dork.');
+          return;
+        }
+        dork = dork.replaceAll('{target}', target);
+      }
+
+      const baseUrl = platformUrls[platform] || platformUrls['google'];
+
+      // Special case for wayback machine (uses URL in path)
+      if (platform === 'wayback') {
+        if (!target) {
+          alert('Please enter a target domain for Wayback Machine.');
+          return;
+        }
+        window.open(baseUrl + target, '_blank');
+        return;
+      }
+
+      // Encode the query for URL
+      const encodedQuery = encodeURIComponent(dork);
+      window.open(baseUrl + encodedQuery, '_blank');
+    }
+
+    function copyDork() {
+      let dork = document.getElementById('customDork').value.trim();
+      const target = document.getElementById('targetInput').value.trim();
+
+      if (!dork) {
+        alert('No dork or target to copy!');
+        return;
+      }
+
+      if (dork.includes('{target}')) {
+        if (!target) {
+          alert('Please enter a target to replace {target} in the dork.');
+          return;
+        }
+        dork = dork.replaceAll('{target}', target);
+      }
+
+      navigator.clipboard.writeText(dork)
+        .then(() => {
+          const status = document.getElementById('status');
+          status.textContent = 'Copied to clipboard!';
+          setTimeout(() => status.textContent = '', 2000);
+        })
+        .catch(() => alert('Failed to copy!'));
+    }
+
+    function setDorkTemplate(template) {
+      document.getElementById('customDork').value = template;
+      document.getElementById('customDork').focus();
+    }
+  </script>
+</body>
+
+</html>
